@@ -1,6 +1,6 @@
 
 async function findUser(username, req) {
-    const user = await req.app.locals.client.db('f1').collection('users').findOne({'username': username});
+    const user = await req.app.locals.client.db('realestate').collection('users').findOne({'username': username});
     return user;
 }
 async function registerUser(req, credentials) {
@@ -10,7 +10,7 @@ async function registerUser(req, credentials) {
         email
     } = credentials;
     try {
-        const user = await req.app.locals.client.db('f1').collection('users').findOne({
+        const user = await req.app.locals.client.db('realestate').collection('users').findOne({
             'username': username
         });
         if (user) {
@@ -21,7 +21,7 @@ async function registerUser(req, credentials) {
     }
     
     try {
-        const user = await req.app.locals.client.db('f1').collection('users').insertOne({
+        const user = await req.app.locals.client.db('realestate').collection('users').insertOne({
             username: username,
             password: password,
             email: email,
