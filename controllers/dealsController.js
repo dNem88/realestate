@@ -9,28 +9,42 @@ dealsController.get('/', async (req, res, next) => {
         res.status(400).json('Failed to fetch!')
     }
 })
-dealsController.post('/', (req, res, next) => {
+dealsController.get('/:id', async (req, res, next) => {
+    
+     try {
+        let deal = await req.app.locals.client.db('realestate').collection('deals').findOne({_id: ObjectId(req.params.id)});
+        console.log(deal)
+        res.status(200).json(deal)
+    } catch (err) {
+        res.status(400).json('Failed to fetch deal!')
+    }
+})
+dealsController.post('/', async(req, res, next) => {
     const data = req.body;
     try{
-        req.app.locals.client.db('realestate').collection('deals').insertOne(data)
+        let response = await req.app.locals.client.db('realestate').collection('deals').insertOne({...data, date: Date()})
+        res.status(201).json(response)
     }catch(e) {
         res.status(400).json('Failed to insert data!')
     }
 })
-dealsController.put('/', (req, res, next) => {
+dealsController.put('/:id', async(req, res, next) => {
     const data = {...req.body}
     delete data._id
-    console.log(data, req.body)
+    delete data.date
+    
     try{
-        req.app.locals.client.db("realestate").collection('deals').updateOne({_id: ObjectId(req.body._id)}, {$set: data})
+        let response = await req.app.locals.client.db("realestate").collection('deals').updateOne({_id: ObjectId(req.body._id)}, {$set: data})
+        res.status(200).json(response)
     }catch(err) {
         res.status(400).json('Failed to update deal!')
     }
 })
-dealsController.delete('/', (req, res, next) => {
+dealsController.delete('/', async(req, res, next) => {
 
     try{
-        req.app.locals.client.db("realestate").collection('deals').deleteOne({_id: ObjectId(req.body._id)}, )
+        let response = await req.app.locals.client.db("realestate").collection('deals').deleteOne({_id: ObjectId(req.body._id)}, )
+        res.status(200).json(response)
     }catch(err) {
         res.status(400).json('Failed to delete deal!')
     }
