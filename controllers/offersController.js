@@ -20,6 +20,8 @@ offersController.get('/:id', async (req, res, next) => {
 })
 offersController.post('/', async(req, res, next) => {
     const data = req.body;
+    data['createdAt'] = Date()
+    data['updatedAt'] = Date()
     try{
         let response = await req.app.locals.client.db('realestate').collection('offers').insertOne(data)
         if (!response.insertedId) {
@@ -33,7 +35,7 @@ offersController.post('/', async(req, res, next) => {
 offersController.put('/:id', async(req, res, next) => {
     const data = {...req.body}
     delete data._id
-    
+    data['updatedAt'] = Date()
     try{
         let response = await req.app.locals.client.db("realestate").collection('offers').updateOne({_id: ObjectId(req.body._id)}, {$set: data})
         res.status(200).json(response)

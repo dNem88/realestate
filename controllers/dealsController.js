@@ -22,7 +22,7 @@ dealsController.get('/:id', async (req, res, next) => {
 dealsController.post('/', async(req, res, next) => {
     const data = req.body;
     try{
-        let response = await req.app.locals.client.db('realestate').collection('deals').insertOne({...data, date: Date()})
+        let response = await req.app.locals.client.db('realestate').collection('deals').insertOne({...data, date: Date(), createdAt: Date()})
         res.status(201).json(response)
     }catch(e) {
         res.status(400).json('Failed to insert data!')
@@ -32,6 +32,7 @@ dealsController.put('/:id', async(req, res, next) => {
     const data = {...req.body}
     delete data._id
     delete data.date
+    data['updatedAt'] = Date()
     
     try{
         let response = await req.app.locals.client.db("realestate").collection('deals').updateOne({_id: ObjectId(req.body._id)}, {$set: data})

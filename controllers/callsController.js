@@ -13,6 +13,7 @@ callsController.get('/', async(req,res,next) => {
 })
 callsController.post('/', async(req,res,next) => {
     const data = req.body
+    data['createdAd'] = Date()
      try{
         let response = await req.app.locals.client.db('realestate').collection('calls').insertOne({...data, date: Date()})
         res.status(201).json(response)
