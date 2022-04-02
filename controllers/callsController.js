@@ -3,7 +3,7 @@ const ObjectId = require('mongodb').ObjectId
 
 callsController.get('/', async(req,res,next) => {
     try{
-        let calls = await req.app.locals.client.db('realestate').collection('calls').find().toArray();
+        let calls = await req.app.locals.client.db('realestate').collection('calls').find().sort({"createdAt": -1}).toArray();
         console.log(calls)
         res.status(200).json(calls)
     }catch(err) {

@@ -3,7 +3,7 @@ const ObjectId = require('mongodb').ObjectId
 
 offersController.get('/', async (req, res, next) => {
     try{
-        let offers = await req.app.locals.client.db('realestate').collection('offers').find().sort({"price": -1}).toArray();
+        let offers = await req.app.locals.client.db('realestate').collection('offers').find().sort({"createdAt": -1}).toArray();
         res.status(200).json(offers)
     } catch(err) {
         res.status(400).json('Failed to fetch!')
