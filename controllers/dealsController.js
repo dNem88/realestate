@@ -2,8 +2,10 @@ const dealsController = require('express').Router()
 const ObjectId = require('mongodb').ObjectId
 
 dealsController.get('/', async (req, res, next) => {
+    let {year} = req.query
+    console.log(year)
     try{
-        let deals = await req.app.locals.client.db('realestate').collection('deals').find().sort({"createdAt": -1}).toArray();
+        let deals = await req.app.locals.client.db('realestate').collection('deals').find({year: year}).sort({"createdAt": -1}).toArray();
         res.status(200).json(deals)
     } catch(err) {
         res.status(400).json('Failed to fetch!')
