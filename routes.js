@@ -4,12 +4,14 @@ const offersController = require('./controllers/offersController')
 const dealsController = require('./controllers/dealsController')
 const callsController = require('./controllers/callsController')
 const isAuthorized = require('./middlewares/isAuthorized')
+const customersController = require('./controllers/customersController')
 
 
 router.use('/users', authController);
 router.use('/offers', offersController);
 router.use('/deals', dealsController);
-router.use('/calls', callsController)
+router.use('/calls', callsController);
+router.use('/customers', customersController);
 
 
 

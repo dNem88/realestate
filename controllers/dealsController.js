@@ -1,21 +1,29 @@
 const dealsController = require('express').Router()
 const ObjectId = require('mongodb').ObjectId
 
+
+
 dealsController.get('/', async (req, res, next) => {
-    let {year} = req.query
-    console.log(year)
+    let year = '2022'
+    let month = '4'
+    
     try{
-        let deals = await req.app.locals.client.db('realestate').collection('deals').find({year: year}).sort({"createdAt": -1}).toArray();
+        let deals = await req.app.locals.client.db('realestate').collection('deals').find().sort({
+            "createdAt": -1
+        }).toArray();
+        let filtered = deals.filter(x => { return new Date(x.createdAt).getMonth()+1 === +month})
+        console.log(filtered)
         res.status(200).json(deals)
     } catch(err) {
+        console.log(err)
         res.status(400).json('Failed to fetch!')
     }
 })
 dealsController.get('/:id', async (req, res, next) => {
-    
+
      try {
         let deal = await req.app.locals.client.db('realestate').collection('deals').findOne({_id: ObjectId(req.params.id)});
-        console.log(deal)
+       
         res.status(200).json(deal)
     } catch (err) {
         res.status(400).json('Failed to fetch deal!')
@@ -24,7 +32,7 @@ dealsController.get('/:id', async (req, res, next) => {
 dealsController.post('/', async(req, res, next) => {
     const data = req.body;
     try{
-        let response = await req.app.locals.client.db('realestate').collection('deals').insertOne({...data, date: Date(), createdAt: Date()})
+        let response = await req.app.locals.client.db('realestate').collection('deals').insertOne({...data, date: Date(), createdAt: new Date().toISOString()})
         res.status(201).json(response)
     }catch(e) {
         res.status(400).json('Failed to insert data!')
@@ -34,7 +42,7 @@ dealsController.put('/:id', async(req, res, next) => {
     const data = {...req.body}
     delete data._id
     delete data.date
-    data['updatedAt'] = Date()
+    data['updatedAt'] = new Date()
     
     try{
         let response = await req.app.locals.client.db("realestate").collection('deals').updateOne({_id: ObjectId(req.body._id)}, {$set: data})
