@@ -27,7 +27,7 @@ customersController.get('/:id', async (req, res, next) => {
 customersController.post('/', async(req, res, next) => {
     const data = req.body;
     try{
-        let response = await req.app.locals.client.db('realestate').collection('customers').insertOne({...data, createdAt: new Date())
+        let response = await req.app.locals.client.db('realestate').collection('customers').insertOne({...data, createdAt: new Date()})
         res.status(201).json(response)
     }catch(e) {
         res.status(400).json('Failed to insert data!')
