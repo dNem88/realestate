@@ -15,6 +15,18 @@ customersController.get('/', async (req, res, next) => {
         res.status(400).json('Failed to fetch!')
     }
 })
+customersController.get('/offer/:id', async (req, res, next) => {
+    const id = req.params.id
+    try {
+        let customers = await req.app.locals.client.db('realestate').collection('customers').find({offer: ObjectId(id)}).sort({
+            "createdAt": -1
+        }).toArray();
+        res.status(200).json(customers)
+    } catch (err) {
+        console.log(err)
+        res.status(400).json('Failed to fetch!')
+    }
+})
 customersController.get('/:id', async (req, res, next) => {
 
      try {
@@ -27,7 +39,7 @@ customersController.get('/:id', async (req, res, next) => {
 customersController.post('/', async(req, res, next) => {
     const data = req.body;
     try{
-        let response = await req.app.locals.client.db('realestate').collection('customers').insertOne({...data, createdAt: new Date()})
+        let response = await req.app.locals.client.db('realestate').collection('customers').insertOne({...data, createdAt: new Date(), offer: ObjectId(data.offer)})
         res.status(201).json(response)
     }catch(e) {
         res.status(400).json('Failed to insert data!')
