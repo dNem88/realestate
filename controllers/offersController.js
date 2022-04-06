@@ -34,6 +34,7 @@ offersController.post('/', async(req, res, next) => {
     const data = req.body;
     data['createdAt'] = Date()
     data['updatedAt'] = Date()
+    data['active'] = 'true'
     try{
         let response = await req.app.locals.client.db('realestate').collection('offers').insertOne(data)
         if (!response.insertedId) {
