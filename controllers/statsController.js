@@ -26,11 +26,13 @@ statsController.post('/', async (req, res, next) => {
             "createdAt": -1
         }).toArray();
         if (stats) {
-            let filtered = stats.filter(x => new Date(x.createdAt).getFullYear === year);
+            let filtered = stats.filter(x => new Date(x.createdAt).getFullYear() === year);
             if (month) {
-                let arrByMonth = filtered.filter(x => new Date(x.createdAt).getMonth === month)
+                let arrByMonth = filtered.filter(x => new Date(x.createdAt).getMonth() === month)
+                console.log('withMonth', arrByMonth)
                 res.status(200).json(arrByMonth)
             } else {
+                console.log(filtered, 'WITHOUT MONTH')
                 res.status(200).json(filtered)
             }
         } else {
