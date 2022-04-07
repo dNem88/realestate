@@ -30,6 +30,8 @@ statsController.post('/', async (req, res, next) => {
             if (month) {
                 let arrByMonth = filtered.filter(x => new Date(x.createdAt).getMonth === month)
                 res.status(200).json(arrByMonth)
+            } else {
+                res.status(200).json(filtered)
             }
         } else {
             throw new Error('Something unusual happened!')
