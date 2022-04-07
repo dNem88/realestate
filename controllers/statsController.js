@@ -2,7 +2,6 @@ const statsController = require('express').Router()
 const ObjectId = require('mongodb').ObjectId
 
 
-
 statsController.post('/', async (req, res, next) => {
     const months = ['януари', 'февруари', 'март', 'април', 'май', 'юни', 'юли', 'август', 'септември', 'октомври', 'ноември', 'декември']
     let {collection, year, month} = req.body;
@@ -18,14 +17,25 @@ statsController.post('/', async (req, res, next) => {
       if (collection === 'сделки') {
           collection = 'deals'
       }
-    month = months.indexOf(month)
+    if (month) {
+        month = months.indexOf(month)
+    }
     console.log(collection, year, month)
     try{
         let stats = await req.app.locals.client.db('realestate').collection(`${collection}`).find().sort({
             "createdAt": -1
         }).toArray();
-        console.log(stats)
-        res.status(200).json(stats)
+        if (stats) {
+            let filtered = stats.filter(x => new Date(x.createdAt).getFullYear === year);
+            if (month) {
+                let arrByMonth = filtered.filter(x => new Date(x.createdAt).getMonth === month)
+                res.status(200).json(arrByMonth)
+            }
+        } else {
+            throw new Error('Something unusual happened!')
+        }
+        
+        
     } catch(err) {
         console.log(err)
         res.status(400).json('Failed to fetch!')
