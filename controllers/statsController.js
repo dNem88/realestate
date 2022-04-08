@@ -17,10 +17,11 @@ statsController.post('/', async (req, res, next) => {
       if (collection === 'сделки') {
           collection = 'deals'
       }
+    let monthToDate = ''
     if (month) {
-        month = months.indexOf(month)
+        monthToDate = months.indexOf(month) +1
     }
-    console.log(collection, year, month)
+   
     try{
         let stats = await req.app.locals.client.db('realestate').collection(`${collection}`).find().sort({
             "createdAt": -1
@@ -28,8 +29,8 @@ statsController.post('/', async (req, res, next) => {
         if (stats) {
             let filtered = stats.filter(x => new Date(x.createdAt).getFullYear() === year);
             if (month) {
-                let arrByMonth = filtered.filter(x => new Date(x.createdAt).getMonth() === month)
-                console.log('withMonth', arrByMonth)
+                let arrByMonth = filtered.filter(x => new Date(x.createdAt).getMonth() === monthToDate-1)
+                
                 res.status(200).json(arrByMonth)
             } else {
                 console.log(filtered, 'WITHOUT MONTH')
