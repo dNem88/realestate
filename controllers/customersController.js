@@ -48,6 +48,7 @@ customersController.post('/', async(req, res, next) => {
 customersController.put('/:id', async(req, res, next) => {
     const data = {...req.body}
     delete data._id
+    delete data.offer
     data['updatedAt'] = new Date()
     
     try{
