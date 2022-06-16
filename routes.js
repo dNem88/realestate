@@ -1,12 +1,12 @@
 const router = require('express').Router();
+
 const authController = require('./controllers/authController');
 const offersController = require('./controllers/offersController')
 const dealsController = require('./controllers/dealsController')
 const callsController = require('./controllers/callsController')
-// const isAuthorized = require('./middlewares/isAuthorized')
-const tasksController = require('./controllers/tasksController')
 const customersController = require('./controllers/customersController')
 const statsController = require('./controllers/statsController')
+const tasksController = require('./controllers/tasksController')
 
 
 router.use('/users',  authController);

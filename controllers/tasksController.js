@@ -1,7 +1,7 @@
-const router = require('express').Router()
+const tasksController = require('express').Router()
 const ObjectId = require('mongodb').ObjectId;
 
-router.get('/', async(req,res,next) => {
+tasksController.get('/', async(req,res,next) => {
      try {
          let tasks = await req.app.locals.client.db('realestate').collection('tasks').find({
              active: true
@@ -13,7 +13,7 @@ router.get('/', async(req,res,next) => {
          res.status(400).json('Failed to fetch tasks!')
      }
 })
-router.get('/:id', async (req, res, next) => {
+tasksController.get('/:id', async (req, res, next) => {
     try {
         let task = await req.app.locals.client.db('realestate').collection('tasks').findOne({
            _id: ObjectId(req.params.id)
@@ -23,7 +23,7 @@ router.get('/:id', async (req, res, next) => {
         res.status(400).json('Failed to fetch task!')
     }
 })
-router.post('/', async(req,res,next) => {
+tasksController.post('/', async(req,res,next) => {
     let payload = req.body
     
     payload['expiresAt'] = req.body.expiresAt
@@ -35,7 +35,7 @@ router.post('/', async(req,res,next) => {
         res.status(400).json('Failed to insert task!')
     }
 })
-router.put('/:id', async(req,res,next) => {
+tasksController.put('/:id', async(req,res,next) => {
     
     const payload = {...req.body}
     delete payload._id
@@ -48,7 +48,7 @@ router.put('/:id', async(req,res,next) => {
         res.status(400).json('Failed to update offer!')
     }
 })
-router.delete('/:id', async(req, res, next) => {
+tasksController.delete('/:id', async(req, res, next) => {
     try {
         let response = await req.app.locals.client.db("realestate").collection('tasks').deleteOne({
             _id: ObjectId(req.params.id)
@@ -59,4 +59,4 @@ router.delete('/:id', async(req, res, next) => {
         res.status(400).json('Failed to delete offer!')
     }
 })
-module.exports = router
+module.exports = tasksController
