@@ -25,6 +25,7 @@ router.get('/:id', async (req, res, next) => {
 })
 router.post('/', async(req,res,next) => {
     let payload = req.body
+    
     payload['expiresAt'] = req.body.expiresAt
     payload['active'] = true
     try {
@@ -35,12 +36,13 @@ router.post('/', async(req,res,next) => {
     }
 })
 router.put('/:id', async(req,res,next) => {
-    console.log(req.params.id)
+    
     const payload = {...req.body}
     delete payload._id
     payload['updatedAt'] = Date()
     try{
         let response = await req.app.locals.client.db("realestate").collection('tasks').updateOne({_id: ObjectId(req.params.id)}, {$set: payload})
+        console.log(response)
         res.status(200).json(response)
     }catch(err) {
         res.status(400).json('Failed to update offer!')
