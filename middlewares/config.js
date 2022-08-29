@@ -12,9 +12,9 @@ module.exports = (app) => {
     app.use(cors({
         methods: 'GET,POST,PUT,DELETE, OPTIONS',
         origin: '*',
-        preflightContinue: true,
+        preflightContinue: false,
         allowedHeaders: "Content-Type, Authorization, X-Requested-With",
-        credentials: true,
+        credentials: false,
         optionsSuccessStatus: 200
     }));
     app.use(cookieParser(process.env.SECRET_KEY))
