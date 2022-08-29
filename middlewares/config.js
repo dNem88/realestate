@@ -14,8 +14,7 @@ module.exports = (app) => {
         origin: '*',
         preflightContinue: false,
         allowedHeaders: "Content-Type, Authorization, X-Requested-With",
-        credentials: false,
-        optionsSuccessStatus: 200
+        optionsSuccessStatus: 204
     }));
     app.use(cookieParser(process.env.SECRET_KEY))
     app.set('view engine', 'ejs');
