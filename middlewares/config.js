@@ -11,10 +11,11 @@ module.exports = (app) => {
     app.use(express.json());
     app.use(cors({
         methods: 'GET,POST,PUT,DELETE, OPTIONS',
-        origin: '*',
+        origin: false,
         preflightContinue: false,
         allowedHeaders: "Content-Type, Authorization, X-Requested-With",
-        optionsSuccessStatus: 204
+        credentials: true,
+        optionsSuccessStatus: 200
     }));
     app.use(cookieParser(process.env.SECRET_KEY))
     app.set('view engine', 'ejs');
