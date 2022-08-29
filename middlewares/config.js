@@ -10,7 +10,7 @@ module.exports = (app) => {
     }));
     app.use(express.json());
     app.use(cors({
-        methods: 'GET,POST,PUT,DELETE',
+        methods: 'GET,POST,PUT,DELETE, OPTIONS',
         origin: 'https://dnem88.github.io',
         preflightContinue: true,
         allowedHeaders: "Content-Type, Authorization, X-Requested-With",
