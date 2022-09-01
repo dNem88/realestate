@@ -11,12 +11,12 @@ module.exports = (app) => {
     app.use(express.json());
     app.use(cors({
         methods: 'GET,POST,PUT,DELETE',
-        origin: ['https://dnem88.github.io/',
-            'http://localhost:3000'
+        origin: ["https://dnem88.github.io/",
+            "http://localhost:3000"
         ],
-        preflightContinue: true,
-        allowedHeaders: "Content-Type, Authorization, X-Requested-With",
-        credentials: true,
+        // preflightContinue: true,
+        // allowedHeaders: "Content-Type, Authorization, X-Requested-With",
+        // credentials: true,
         optionsSuccessStatus: 200
     }));
     app.use(cookieParser(process.env.SECRET_KEY))
