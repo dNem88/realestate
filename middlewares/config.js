@@ -11,7 +11,7 @@ module.exports = (app) => {
     app.use(express.json());
     app.use(cors({
         methods: 'GET,POST,PUT,DELETE',
-        origin: ["https://dnem88.github.io/",
+        origin: ["https://dnem88.github.io",
             "http://localhost:3000"
         ],
         // preflightContinue: true,
