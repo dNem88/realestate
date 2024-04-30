@@ -15,8 +15,6 @@
     "devStart": "nodemon index.js",
     "test": "jest"
   },
-
-
   "keywords": [],
   "author": "",
   "license": "ISC",

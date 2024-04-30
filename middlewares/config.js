@@ -20,5 +20,5 @@ module.exports = (app) => {
     app.use(cookieParser(process.env.SECRET_KEY))
     app.set('view engine', 'ejs');
     app.use('/static', express.static(`${root}/static`));
-    console.log('here')
+    console.log('All middlewares work properly!')
 };

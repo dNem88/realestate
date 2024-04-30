@@ -1,9 +1,10 @@
-const mongodb = require('mongodb');
+const {MongoClient} = require('mongodb');
 
-const client = new mongodb.MongoClient(process.env.DB_URI, {
+const client = new MongoClient("mongodb+srv://dNem88:daniel123$$@dn88.vllop.mongodb.net/realestate?retryWrites=true&w=majority", {
     useNewUrlParser: true,
     useUnifiedTopology: true
-});
+})
+
 
 module.exports = (app) => {
     client.connect((err, db) => {

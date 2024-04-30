@@ -1,6 +1,6 @@
 /node_modules
 /architecture.txt
-/config/.env
+
 /http_requests.rest
 /server.js
 .jshintrc
