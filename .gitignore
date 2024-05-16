@@ -1,7 +1,8 @@
 /node_modules
 /architecture.txt
 
-/http_requests.rest
-/server.js
+./http_requests.rest
+./server.js
 .jshintrc
-
+.env
+.vercel

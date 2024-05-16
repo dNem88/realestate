@@ -1,9 +1,13 @@
 const tasksController = require('express').Router()
 const ObjectId = require('mongodb').ObjectId;
+const clientPromise = require('../config/database');
+
 
 tasksController.get('/', async(req,res,next) => {
+    const client = await clientPromise;
+    const db = client.db('realestate')
      try {
-         let tasks = await req.app.locals.client.db('realestate').collection('tasks').find({
+         let tasks = await db.collection('tasks').find({
              active: true
          }).sort({
              "expiresAt": 1
@@ -14,8 +18,10 @@ tasksController.get('/', async(req,res,next) => {
      }
 })
 tasksController.get('/:id', async (req, res, next) => {
+    const client = await clientPromise;
+    const db = client.db('realestate')
     try {
-        let task = await req.app.locals.client.db('realestate').collection('tasks').findOne({
+        let task = await db.collection('tasks').findOne({
            _id: ObjectId(req.params.id)
         })
         res.status(200).json(task)
@@ -24,24 +30,27 @@ tasksController.get('/:id', async (req, res, next) => {
     }
 })
 tasksController.post('/', async(req,res,next) => {
+    const client = await clientPromise;
+    const db = client.db('realestate')
     let payload = req.body
     
     payload['expiresAt'] = req.body.expiresAt
     payload['active'] = true
     try {
-        let task = await req.app.locals.client.db("realestate").collection('tasks').insertOne(payload)
+        let task = await db.collection('tasks').insertOne(payload)
         task.insertedId ? res.status(201).json('Successfully created new Task') : res.status(400).json('Something happened!')
     } catch (err) {
         res.status(400).json('Failed to insert task!')
     }
 })
 tasksController.put('/:id', async(req,res,next) => {
-    
+    const client = await clientPromise;
+    const db = client.db('realestate')
     const payload = {...req.body}
     delete payload._id
     payload['updatedAt'] = Date()
     try{
-        let response = await req.app.locals.client.db("realestate").collection('tasks').updateOne({_id: ObjectId(req.params.id)}, {$set: payload})
+        let response = await db.collection('tasks').updateOne({_id: ObjectId(req.params.id)}, {$set: payload})
         console.log(response)
         res.status(200).json(response)
     }catch(err) {
@@ -49,8 +58,10 @@ tasksController.put('/:id', async(req,res,next) => {
     }
 })
 tasksController.delete('/:id', async(req, res, next) => {
+    const client = await clientPromise;
+    const db = client.db('realestate')
     try {
-        let response = await req.app.locals.client.db("realestate").collection('tasks').deleteOne({
+        let response = await db.collection('tasks').deleteOne({
             _id: ObjectId(req.params.id)
         }, )
 

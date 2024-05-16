@@ -21,4 +21,10 @@ module.exports = (app) => {
     app.set('view engine', 'ejs');
     app.use('/static', express.static(`${root}/static`));
     console.log('All middlewares work properly!')
+    // app.listen(process.env.PORT || '3000', (err) => {
+    //     if (err) {
+    //         console.log('Error in app.listen')
+    //     }
+    //     console.log(`Server listens to port ${process.env.PORT}`)
+    // })
 };

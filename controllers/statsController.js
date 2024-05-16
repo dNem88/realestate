@@ -1,8 +1,12 @@
 const statsController = require('express').Router()
 const ObjectId = require('mongodb').ObjectId
+const  clientPromise = require('../config/database');
 
 
 statsController.post('/', async (req, res, next) => {
+    const client = await clientPromise;
+    const db = client.db('realestate')
+    console.log(db)
     const months = ['януари', 'февруари', 'март', 'април', 'май', 'юни', 'юли', 'август', 'септември', 'октомври', 'ноември', 'декември']
     let {collection, year, month} = req.body;
     if (collection === 'оферти') {
@@ -21,9 +25,9 @@ statsController.post('/', async (req, res, next) => {
     if (month) {
         monthToDate = months.indexOf(month) +1
     }
-   
+    
     try{
-        let stats = await req.app.locals.client.db('realestate').collection(`${collection}`).find().sort({
+        let stats = db.collection(`${collection}`).find().sort({
             "createdAt": -1
         }).toArray();
         if (stats) {
@@ -42,7 +46,7 @@ statsController.post('/', async (req, res, next) => {
         
         
     } catch(err) {
-        res.status(400).json('Failed to fetch!')
+        res.status(400).json('ErrorfromSTATS controlller!')
     }
 })
 
